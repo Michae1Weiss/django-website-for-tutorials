@@ -7,4 +7,7 @@
 {#  Add content  #}
 {% block content %}
   {#  Your content must be here  #}
+    {% autoescape off %}
+      {{ markdown }}
+    {% endautoescape %}
 {% endblock content %}

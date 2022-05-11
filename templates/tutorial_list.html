@@ -1,0 +1,17 @@
+{#  Extends base HTML template  #}
+{% extends "base.html" %}
+
+{#  Add title  #}
+{% block title %}Tutorials{% endblock title %}
+
+{#  Add content  #}
+{% block content %}
+  {#  Your content must be here  #}
+  <ul>
+  {% for tutorial in object_list %}
+      <li><a href="/tutorial/day-{{ tutorial.day }}/">Day {{ tutorial.day }} - {{ tutorial.name }}</a></li>
+  {% empty %}
+      <li>No articles yet.</li>
+  {% endfor %}
+  </ul>
+{% endblock content %}
