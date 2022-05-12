@@ -7,11 +7,14 @@
 {#  Add content  #}
 {% block content %}
   {#  Your content must be here  #}
-  <ul>
-  {% for tutorial in object_list %}
-      <li><a href="/tutorial/day-{{ tutorial.day }}/">Day {{ tutorial.day }} - {{ tutorial.name }}</a></li>
-  {% empty %}
-      <li>No articles yet.</li>
-  {% endfor %}
-  </ul>
+  <nav>
+    <a href="/">Home</a>
+    <span>Tutorials</span>
+    {% for tutorial in object_list %}
+      <a href="/tutorial/day-{{ tutorial.day }}/" class="sublink-1">Day {{ tutorial.day }} - {{ tutorial.name }}</a>
+    {% empty %}
+      <a class="sublink-1">No articles yet.</a>
+    {% endfor %}
+    <a href="/about/">About</a>
+  </nav>
 {% endblock content %}

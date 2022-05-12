@@ -1,6 +1,8 @@
+from pathlib import Path
 import markdown
 
 from django.http import Http404
+from django.conf import settings
 from django.utils.translation import gettext as _
 from django.views.generic import TemplateView, DetailView, ListView
 
@@ -10,9 +12,12 @@ from .models import Tutorial
 class HomeView(TemplateView):
     template_name = "home.html"
 
-
-class LearnView(TemplateView):
-    template_name = "learn.html"
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        md = settings.BASE_DIR / settings.STATIC_ROOT / 'md' / 'homepage.md'
+        with md.open('r') as f:
+            context['markdown'] = markdown.markdown(f.read())
+        return context
 
 
 class AboutView(TemplateView):
@@ -28,12 +33,12 @@ class TutorialView(DetailView):
         if queryset is None:
             queryset = self.get_queryset()
 
-        # Next, try looking up by primary key.
+        # Next, try looking up by `day`.
         day = self.kwargs.get("day")
         if day is not None:
             queryset = queryset.filter(day=day)
 
-        # If none of those are defined, it's an error.
+        # If `day` is None, it's an error.
         if day is None:
             raise AttributeError(
                 "Generic detail view %s must be called an object "
