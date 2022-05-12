@@ -1,27 +1,39 @@
-from pathlib import Path
 import markdown
 
 from django.http import Http404
 from django.conf import settings
+from django.core.exceptions import ImproperlyConfigured
 from django.utils.translation import gettext as _
 from django.views.generic import TemplateView, DetailView, ListView
 
 from .models import Tutorial
 
 
-class HomeView(TemplateView):
-    template_name = "home.html"
+class MarkdownTemplateView(TemplateView):
+    """Returns `markdown` HTML content in context, that was rendered from markdown static file"""
+    markdown_name = None  # must be provided
 
     def get_context_data(self, **kwargs):
+        if self.markdown_name is None:
+            raise ImproperlyConfigured(
+                "MarkdownTemplateView requires a definition of 'markdown_name'"
+            )
+
         context = super().get_context_data(**kwargs)
-        md = settings.BASE_DIR / settings.STATIC_ROOT / 'md' / 'homepage.md'
+        md = settings.BASE_DIR / settings.STATIC_ROOT / 'md' / self.markdown_name
         with md.open('r') as f:
             context['markdown'] = markdown.markdown(f.read())
         return context
 
 
-class AboutView(TemplateView):
+class HomeView(MarkdownTemplateView):
+    template_name = "home.html"
+    markdown_name = 'homepage.md'
+
+
+class AboutView(MarkdownTemplateView):
     template_name = "about.html"
+    markdown_name = 'about.md'
 
 
 class TutorialView(DetailView):

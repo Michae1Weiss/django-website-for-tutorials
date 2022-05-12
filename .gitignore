@@ -142,3 +142,9 @@ GitHub.sublime-settings
 
 # collected static files
 /static/
+
+# images
+/apps/web/static/img/*.png
+
+# environment variables
+.env

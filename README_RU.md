@@ -1,6 +1,66 @@
-# Python + Web + SQL + Django tutorial
+[**English**](README.md) | **Russian**
+# Django вебсайт для уроков
+Сайт для публикации уроков с аккуратным дизайном и отзывчивым интерфейсом.
 
-## How to learn python (Step-By-Step)
+## Особенности
+* Django
+  * Веб фреймворк
+  * [GitHub репозиторий](https://github.com/django/django)
+* Python-Markdown
+  * Конвертация строки в HTML
+  * [GitHub репозиторий](https://github.com/Python-Markdown/markdown/)
+* python-dotenv
+  * Считывает пары ключ-значение из файла .env и может устанавливать их в качестве переменных окружения
+  * [GitHub репозиторий](https://github.com/theskumar/python-dotenv)
+* mini.css
+  * Минималистичный, отзывчивый и неприхотливый CSS фреймворк
+  * [GitHub репозиторий](https://github.com/Chalarangelo/mini.css/)
+
+## Как запустить (Linux, MacOS)
+1. **Перейди** в папку с проектами и **клонируй** репозиторий локально
+    ```bash
+    # перейди в папку, куда ты хочешь клонировать репозиторий
+    $ cd /path/to/project/folder/
+    # клонируй этот несчастный репозиторий
+    $ git clone https://github.com/Michae1Weiss/django-website-for-tutorials.git
+    ```
+2. Зайди в папку репозитория
+    ```bash
+    # перейди в папку
+    $ cd django-website-for-tutorials
+    ```
+3. Создай **виртуальное окружение** для Python и **активируй** его.
+[Доступно о виртуальном окружении (на русском)](https://ru.hexlet.io/courses/python-setup-environment/lessons/venv/theory_unit)
+    > В системе должен быть установлен **Python** версии 3.6+. [Скачать питон](https://www.python.org/downloads/)
+    ```bash
+    # создай виртуальное окружение
+    $ python3 -m venv venv 
+    # [!] python создаст папку `venv`
+    # активируй виртуальное окружение
+    $ source venv/bin/activate
+    ```
+    > В командной строке перед именем должна появится надпись `(venv)`. Для выхода из окружения напиши `deactivate`.
+4. Проведи миграцию базы данных [О команде **migrate**](https://docs.djangoproject.com/en/4.0/ref/django-admin/#migrate)
+   ```bash
+   # это создаст файл базы данных `db.sqlite3` со всеми необходимыми таблицами
+   $ python manage migrate
+   ```
+5. Собери статические файлы. [О команде **collectstatic**](https://docs.djangoproject.com/en/4.0/ref/django-admin/#collectstatic)
+   ```bash
+   # Это стянет все необходимые статические файлы в одну общую папку `static` в корне проекта.
+   $ python manage collectstatic
+   ```
+6. Запусти сервер. [О команде **runserver**](https://docs.djangoproject.com/en/4.0/ref/django-admin/#runserver)
+   ```bash
+   # По умолчанию запускает сервер локально: http://127.0.0.1:8000
+   $ python manage runserver
+   ```
+7. Создай суперпользователя. [О команде **createsuperuser**](https://docs.djangoproject.com/en/4.0/ref/django-admin/#createsuperuser)
+   ```bash
+   # Нужно для того чтобы иметь возможность создавать уроки в админ панели.
+   $ python manage createsuperuser
+   ```
+8. **Поздравляю**, теперь ты можешь пользоваться сайтом :)
 
 ## Советы начинающим программистам
 > Практика - путь к совершенству. ~ пословица
