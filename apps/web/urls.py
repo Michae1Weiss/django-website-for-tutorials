@@ -6,6 +6,7 @@ from .views import (
     TutorialView,
     TutorialsView,
     CSSExampleView,
+    SolutionView
 )
 
 urlpatterns = [
@@ -14,6 +15,7 @@ urlpatterns = [
     path('tutorial/day-<int:day>/', TutorialView.as_view()),
     path('tutorials/', TutorialsView.as_view()),
     path('mini-css/', CSSExampleView.as_view()),
+    path('upload-solution/<int:id>/', SolutionView.as_view()),
 ]
 
 

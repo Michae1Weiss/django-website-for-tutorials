@@ -1,5 +1,6 @@
 {#  Extends base HTML template  #}
 {% extends "base.html" %}
+{% load markdown_extras %}
 
 {#  Add title  #}
 {% block title %}{#  Your title must be here  #}{% endblock title %}
@@ -7,7 +8,23 @@
 {#  Add content  #}
 {% block content %}
   {#  Your content must be here  #}
-  {% autoescape off %}
-    {{ markdown }}
-  {% endautoescape %}
+  {{ tutorial.text | markdown | safe }}
+  <h2>Exercises</h2>
+  {% for exercise in exercises %}
+    {{ exercise.exercise | markdown | safe }}
+    {% if exercise.correct_solution %}
+      {{ exercise.correct_solution }}
+    {% endif %}
+    {% if user.is_authenticated %}
+      <form enctype="multipart/form-data" method="post" action="/upload-solution/{{ exercise.id }}/">
+        {% csrf_token %}
+        <input type="file" name="solution" />
+        <input type="submit" name="submit" value="Upload" />
+      </form>
+    {% else %}
+      <p>Log in</p>
+    {% endif %}
+  {% empty %}
+    <p>No exercises for this tutorial</p>
+  {% endfor %}
 {% endblock content %}

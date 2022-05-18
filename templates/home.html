@@ -1,5 +1,6 @@
 {#  Extends base HTML template  #}
 {% extends "base.html" %}
+{% load markdown_extras %}
 
 {#  Add title  #}
 {% block title %}Home{% endblock title %}
@@ -7,7 +8,5 @@
 {#  Add content  #}
 {% block content %}
   {#  Your content must be here  #}
-  {% autoescape off %}
-    {{ markdown }}
-  {% endautoescape %}
+  {{ text | markdown | safe }}
 {% endblock content %}
