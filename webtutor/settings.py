@@ -33,6 +33,7 @@ DEBUG = strtobool(os.getenv('DEBUG'))
 ALLOWED_HOSTS = os.getenv("DJANGO_ALLOWED_HOSTS", '').split(",")
 
 CORS_ALLOWED_ORIGINS = os.getenv("CORS_ALLOWED_ORIGINS", '').split(",")
+CSRF_TRUSTED_ORIGINS = os.getenv("CSRF_TRUSTED_ORIGINS", '').split(",")
 CORS_ALLOW_ALL_ORIGINS = bool(strtobool(os.getenv("CORS_ALLOW_ALL_ORIGINS")))
 
 # Application definition
