@@ -143,6 +143,9 @@ GitHub.sublime-settings
 # collected static files
 /static/
 
+# storage
+/storage/
+
 # images
 /apps/web/static/img/*.png
 

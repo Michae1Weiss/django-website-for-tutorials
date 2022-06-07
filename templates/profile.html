@@ -1,0 +1,35 @@
+{#  Extends base HTML template  #}
+{% extends "base.html" %}
+
+{#  Add title  #}
+{% block title %}{#  Your title must be here  #}{% endblock title %}
+
+{#  Add content  #}
+{% block content %}
+  {#  Your content must be here  #}
+  <h2>Solutions:</h2>
+    {% for solution in solutions %}
+      <div class="card large">
+        <h3>Solution {{ forloop.counter }}:</h3>
+          <dev class="section">
+            <p>Status: <strong>{{ solution.status }}</strong></p>
+            <p><a href="/tutorial/day-{{ solution.exercise.tutorial.day }}/">Link to exercise tutorial</a></p>
+            <p><a href="/{{ solution.user_solution }}">Download solution</a></p>
+          </dev>
+          <h4>Comments:</h4>
+          <dev class="section dark">
+            {% for comment in solution.solutioncomment_set.all %}
+              <div class="card">
+                <p>Comment {{ forloop.counter }}: <em>{{ comment.comment }}</em></p>
+                <p><a href="/{{ comment.fixed_solution }}">Fixed solution</a></p>
+              </div>
+            {% empty %}
+              <p>No comments</p>
+            {% endfor %}
+          </dev>
+      </div>
+    {% empty %}
+      <p>No solutions</p>
+    {% endfor %}
+
+{% endblock content %}

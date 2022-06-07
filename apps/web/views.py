@@ -1,12 +1,13 @@
 from django.http import Http404
 from django.conf import settings
+from django.http import HttpResponseRedirect
 from django.views.generic import TemplateView, DetailView, ListView, FormView
 from django.core.exceptions import ImproperlyConfigured
 from django.utils.translation import gettext as _
 from django.contrib.auth.mixins import LoginRequiredMixin
 
 from .forms import FileFieldModelForm
-from .models import Tutorial, Exercise
+from .models import Tutorial, Exercise, ExerciseSolution
 
 
 class MarkdownTemplateView(TemplateView):
@@ -23,6 +24,17 @@ class MarkdownTemplateView(TemplateView):
         md = settings.BASE_DIR / settings.STATIC_ROOT / 'md' / self.markdown_name
         with md.open('r') as f:
             context['text'] = f.read()
+        return context
+
+
+class ProfileView(LoginRequiredMixin, TemplateView):
+    template_name = "profile.html"
+
+    def get_context_data(self, **kwargs):
+        user = self.request.user
+
+        context = super().get_context_data(**kwargs)
+        context['solutions'] = ExerciseSolution.objects.filter(user=user)
         return context
 
 
@@ -84,14 +96,21 @@ class CSSExampleView(TemplateView):
 
 class SolutionView(LoginRequiredMixin, FormView):
     form_class = FileFieldModelForm
+    template_name = 'home.html'
+
+    def get_success_url(self):
+        return self.request.META['HTTP_REFERER']
 
     def post(self, request, *args, **kwargs):
+
         form_class = self.get_form_class()
-        form = self.get_form(form_class)
-        files = request.FILES.getlist('file_field')
+        form = form_class(request.POST, request.FILES)
+
+        # files = request.FILES.getlist('user_solution')
         if form.is_valid():
-            for f in files:
-                ...  # Do something with each file.
+            form.save(commit=False)
+            form.instance.user = request.user
+            form.save()
             return self.form_valid(form)
         else:
             return self.form_invalid(form)

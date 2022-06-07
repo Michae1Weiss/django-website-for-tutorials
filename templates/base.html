@@ -49,6 +49,8 @@
         <a href="https://github.com/Michae1Weiss/django-website-for-tutorials/tree/master" role="button" title="GitHub page of this website" target="_blank">GitHub</a>
         <span>|</span>
         {% if user.is_authenticated %}
+          <a href="/profile/" role="button" title="Login with username and password">Profile</a>
+          <span>|</span>
           <a href="/logout/" role="button" title="Logout">Logout</a>
         {% else %}
           <a href="/login/" role="button" title="Login with username and password">Login</a>

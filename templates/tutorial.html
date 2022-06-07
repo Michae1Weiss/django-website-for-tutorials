@@ -11,19 +11,31 @@
   {{ tutorial.text | markdown | safe }}
   <h2>Exercises</h2>
   {% for exercise in exercises %}
-    {{ exercise.exercise | markdown | safe }}
-    {% if exercise.correct_solution %}
-      {{ exercise.correct_solution }}
-    {% endif %}
-    {% if user.is_authenticated %}
-      <form enctype="multipart/form-data" method="post" action="/upload-solution/{{ exercise.id }}/">
-        {% csrf_token %}
-        <input type="file" name="solution" />
-        <input type="submit" name="submit" value="Upload" />
-      </form>
-    {% else %}
-      <p>Log in</p>
-    {% endif %}
+    <div class="card large">
+      <h3>Exercise №{{ forloop.counter }}:</h3>
+      <div class="section">
+        {{ exercise.exercise | markdown | safe }}
+        {% if user.is_authenticated %}
+          <div class="card fluid">
+            <p>Загрузи своё решение:</p>
+            <form enctype="multipart/form-data" method="post" action="/upload-solution/{{ exercise.id }}/">
+              {% csrf_token %}
+              <input type="hidden" id="exercise" name="exercise" value="{{ exercise.id }}">
+              <input type="file" id="user_solution" name="user_solution" class="button"/>
+              <input type="submit" name="submit" value="Upload solution" />
+            </form>
+          </div>
+          {% if exercise.correct_solution %}
+            <div class="card fluid">
+              <p>Если ты запутался, ты можешь скачать пример решения:</p>
+              <a href="/{{ exercise.correct_solution }}" target="_blank" class="button">Download solution</a>
+            </div>
+          {% endif %}
+        {% else %}
+          <p>Please, log in</p>
+        {% endif %}
+      </div>
+    </div>
   {% empty %}
     <p>No exercises for this tutorial</p>
   {% endfor %}
